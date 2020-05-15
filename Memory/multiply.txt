@@ -1,0 +1,43 @@
+MOV A, #
+4
+MOV a, A
+0xff
+0
+MOV A, #
+7
+MOV a, A
+0xff
+1
+MOV A, #
+0
+MOV a, A
+0xff
+2
+
+MOV A, a
+0xff
+2
+ADD a
+0xff
+1
+MOV a, A
+0xff
+2
+MOV A, a
+0xff
+0
+SUB #
+1
+MOV a, A
+0xff
+0
+JMPNZ #
+0
+15
+
+MOV IOA, #
+0
+OUT a
+0xff
+2
+HLT

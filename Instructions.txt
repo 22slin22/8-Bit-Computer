@@ -1,0 +1,127 @@
+F - Flags:
+	Z 	- 	Zero:		010
+	NZ 	-	not Zero:	011
+	C 	- 	Carry:		100
+	NC	-	not Carry:	101
+	S 	- 	Sign:		110
+	NS	-	not Sign:	111
+
+
+HLT				- 	00000000	-	0x00
+				-	11111111	-	0xff
+
+NOOP			-	11110000	-	0xf0
+
+
+MOV A, #		-	00010001	-	0x11
+MOV A, a 		- 	00010010	-	0x12
+MOV A, @		-	00010011	- 	0x13
+# MOV A, B 		-	00010100	-	0x14
+MOV A, (SP)		-	00010101	- 	0x15
+MOV A, SPL		-	00010110	-	0x16
+MOV A, SPH		-	00010111	-	0x17
+
+MOV IOA, A 		-	00011000	-	0x18
+MOV IOA, # 		-	00011001	-	0x19
+MOV IOA, a 		-	00011010	-	0x1a
+MOV IOA, @		-	00011011	-	0x1b
+# MOV IOA, B 	-	00011100	-	0x1c
+MOV IOA, (SP)	-	00011101	-	0x1d
+
+# MOV B, A 		-	00100000	-	0x20
+# MOV B, # 		-	00100001	-	0x21
+# MOV B, a 		-	00100010	-	0x22
+# MOV B, @		-	00100011	-	0x23
+# MOV B, (SP)	-	00100101	-	0x25
+# MOV B, SPL 	-	00100110	-	0x26
+# MOV B, SPH	-	00100111	-	0x27
+
+MOV SPL, A 		-	00101000	-	0x28
+# MOV SPL, B 	-	00101001	-	0x29
+MOV SPH, A 		-	00101010	-	0x2a
+# MOV SPH, B 	-	00101011	-	0x2b
+MOV SP, #		-	00101100	-	0x2c
+MOV SP, a 		- 	00101101	-	0x2d
+
+MOV (SP), A 	-	00110000	-	0x30
+MOV (SP), #		-	00110001	-	0x31
+MOV (SP), a		-	00110010	-	0x32
+# MOV (SP), B	-	00110100	-	0x34
+MOV (SP), SPL 	-	00110110	-	0x36
+MOV (SP), SPH	-	00110111	-	0x37
+
+MOV a, A 		- 	00111000	-	0x38
+# MOV a, B 		-	00111001	-	0x39
+MOV a, SP 		-	00111010	-	0x3a
+
+MOV @, A 		-	00111100	-	0x3c
+# MOV @, B 		-	00111101	-	0x3d
+
+
+ADD A 			-	01000000	-	0x40
+ADD # 			-	01000001	-	0x41
+ADD a 			-	01000010	-	0x42
+ADD @ 			-	01000011	- 	0x43
+# ADD B 		- 	01000100	-	0x44
+ADD (SP)		-	01000101	- 	0x45
+
+ADDC A 			-	01001000	-	0x48
+ADDC # 			-	01001001	-	0x49
+ADDC a 			-	01001010	-	0x4a
+ADDC @ 			-	01001011	- 	0x4b
+# ADDC B 		- 	01001100	-	0x4c
+ADDC (SP)		-	01001101	- 	0x4d
+
+SUB # 			-	01010001	-	0x51
+SUB a 			-	01010010	-	0x52
+SUB @ 			-	01010011	- 	0x53
+# SUB B 		- 	01010100	-	0x54
+SUB (SP)		-	01010101	- 	0x55
+
+SUBB # 			-	01011001	-	0x59
+SUBB a 			-	01011010	-	0x5a
+SUBB @ 			-	01011011	- 	0x5b
+# SUBB B 		- 	01011100	-	0x5c
+SUBB (SP)		-	01011101	- 	0x5d
+
+INC SP			-	01100000	-	0x60
+DEC SP			-	01100001	-	0x61
+
+COMP #			-	01110001 	-	0x71
+COMP a 			-	01110010	-	0x72
+COMP @			-	01110011	-	0x73
+# COMP B 		-	01110100	-	0x74
+COMP (SP)		-	01110101	-	0x75			
+
+OUT	A			-	10000000	-	0x80
+OUT #			-	10000001	-	0x81
+OUT a 			- 	10000010	-	0x82
+OUT @			-	10000011	-	0x83
+# OUT B			-	10000100	-	0x84
+OUT (SP)		-	10000101	-	0x85
+
+IN A			-	10001000	-	0x88
+IN a			-	10001010	-	0x8a
+IN @			-	10001011	-	0x8b
+# IN B			-	10001100	-	0x8c
+
+
+JMP # 			-	10010000	-	0x90
+JMPF # 			-	10010FFF	-	0x9?
+JMP a 			-	10011000	-	0x98
+JMPF a 			-	10011FFF	-	0x9?
+# JMP BA 		-	10011000	-	0xa8
+# JMPF BA 		-	10011FFF	-	0xa?
+
+
+PUSH A 			-	10100000	-	0xb0
+PUSH # 			-	10100001	-	0xb1
+PUSH a 			-	10100010	-	0xb2
+# PUSH B 		-	10100100	-	0xb4
+PUSH w			-	10100110	-	0xb6
+PUSH PC+3		-	10100111	-	0xb7
+
+POP A 			- 	10101000	-	0xb8
+# POP B 		- 	10101100	-	0xbc
+POP PC			-	10101110	-	0xbe
+

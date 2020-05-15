@@ -1,0 +1,5 @@
+IN A
+OUT A
+JMP #
+0
+0

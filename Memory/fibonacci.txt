@@ -1,0 +1,27 @@
+MOV A, #
+1
+MOV a, A
+0x8000
+MOV a, A
+0x8001
+MOV A, #
+0
+
+MOV IOA, #
+0
+
+loop:
+	ADD a
+	0x8000
+	OUT A
+	MOV a, A
+	0x8000
+
+	ADD a
+	0x8001
+	OUT A
+	MOV a, A
+	0x8001
+
+	JMP #
+	[loop]

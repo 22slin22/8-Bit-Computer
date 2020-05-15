@@ -1,0 +1,187 @@
+MOV SP, #
+0xffff
+
+MOV IOA, #
+1
+OUT #
+0b00111000
+OUT #
+0b00001111
+OUT #
+0b00000110
+OUT #
+0b00000001
+
+
+factorial:
+	PUSH w
+	[factorial_cont]
+	MOV IOA, #
+	0
+	factorial_input_loop1:
+		IN A
+		COMP #
+		0
+		JMPNZ #
+		[factorial_input_loop1]
+	factorial_input_loop2:
+		IN A
+		COMP #
+		0
+		JMPZ #
+		[factorial_input_loop2]
+	PUSH A
+	JMP #
+	[fac]
+	factorial_cont:
+		PUSH A
+		PUSH w
+		[factorial_print_cont]
+		INC SP
+		INC SP
+		MOV A, (SP)
+		DEC SP
+		DEC SP
+		PUSH A
+		JMP #
+		[print_byte]
+		factorial_print_cont:
+			HLT
+
+
+
+fac:
+	MOV A, (SP)
+	COMP #
+	2
+	JMPNS #
+	[fac_rec]
+	INC SP
+	POP PC
+	fac_rec:
+		PUSH w
+		[fac_rec_cont]
+		INC SP
+		INC SP
+		MOV A, (SP)
+		DEC SP
+		DEC SP
+		SUB #
+		1
+		PUSH A
+		JMP #
+		[fac]
+		fac_rec_cont:
+		PUSH A
+		JMP #
+		[mul]
+
+
+mul:
+	PUSH #
+	0
+	mul_start:
+		INC SP
+		MOV A, (SP)
+		SUB #
+		1
+		MOV (SP), A
+		DEC SP
+		JMPS #
+		[mul_end]
+		MOV A, (SP)
+		INC SP
+		INC SP
+		ADD (SP)
+		DEC SP
+		DEC SP
+		MOV (SP), A
+		JMP #
+		[mul_start]
+	mul_end:
+		POP A
+		INC SP
+		INC SP
+		POP PC
+
+
+print_byte:
+	MOV IOA, #
+	2
+
+	counter:
+	PUSH #
+	0
+
+	INC SP
+	MOV A, (SP)
+	DEC SP
+	COMP #
+	200
+	JMPNC #
+	[cmp_to_100]
+	OUT #
+	'2'
+	SUB #
+	200
+	JMP #
+	[tens]
+cmp_to_100:
+	COMP #
+	100
+	JMPNC #
+	[zero_hundreds]
+	OUT #
+	'1'
+	SUB #
+	100
+	JMP #
+	[tens]
+zero_hundreds:
+	OUT #
+	'0'
+
+tens:
+	loop_tens:
+		SUB #
+		10
+		JMPS #
+		[continue_tens]
+		INC SP
+		MOV (SP), A
+		DEC SP
+		increase_counter:
+		MOV A, (SP)
+		ADD #
+		1
+		MOV (SP), A
+		INC SP
+		MOV A, (SP)
+		DEC SP
+		JMP #
+		[loop_tens]
+
+	continue_tens:
+	ADD #
+	10
+	INC SP
+	MOV (SP), A
+	DEC SP
+	MOV A, (SP)
+	convert_to_ascii:
+	ADD #
+	0b00110000
+	OUT A
+
+ones:
+	INC SP
+	MOV A, (SP)
+	DEC SP
+	convert_to_ascii:
+	ADD #
+	0b00110000
+	OUT A
+
+	INC SP
+	INC SP
+	POP PC

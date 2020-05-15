@@ -1,0 +1,85 @@
+MOV IOA, #
+1
+OUT #
+0b00111000
+OUT #
+0b00001111
+OUT #
+0b00000110
+OUT #
+0b00000001
+
+buttons:
+	MOV IOA, #
+	3
+	OUT #
+	0b10000000
+	IN A
+
+	ADD A
+	JMPC #
+	[one]
+	JMPS #
+	[two]
+	ADD A
+	JMPS #
+	[three]
+	ADD A
+	JMPS #
+	[A]
+
+	MOV IOA, #
+	3
+	OUT #
+	0b01000000
+	IN A
+
+	ADD A
+	JMPC #
+	[four]
+	JMPS #
+	[five]
+	ADD A
+	JMPS #
+	[six]
+	ADD A
+	JMPS #
+	[B]
+
+	MOV IOA, #
+	3
+	OUT #
+	0b00100000
+	IN A
+
+	ADD A
+	JMPC #
+	[seven]
+	JMPS #
+	[eight]
+	ADD A
+	JMPS #
+	[nine]
+	ADD A
+	JMPS #
+	[C]
+
+	MOV IOA, #
+	3
+	OUT #
+	0b00010000
+	IN A
+
+	ADD A
+	JMPC #
+	[star]
+	JMPS #
+	[zero]
+	ADD A
+	JMPS #
+	[hashtag]
+	ADD A
+	JMPS #
+	[D]
+	JMP #
+	[buttons]

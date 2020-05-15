@@ -1,0 +1,786 @@
+MOV SP, #
+0xffff
+
+MOV IOA, #
+1
+OUT #
+0b00111000
+OUT #
+0b00001100
+OUT #
+0b00000110
+OUT #
+0b00000001
+
+MOV IOA, #
+0
+selection_loop:
+	IN A
+	COMP #
+	0
+	JMPZ #
+	[selection_loop]
+SUB #
+1
+JMPZ #
+[factorial]
+SUB #
+1
+JMPZ #
+[fibonacci]
+SUB #
+1
+JMPZ #
+[tic_tac_toe]
+SUB #
+1
+JMPZ #
+[multipress]
+HLT
+
+
+
+
+factorial:
+	PUSH w
+	[factorial_cont]
+	MOV IOA, #
+	0
+	factorial_input_loop1:
+		IN A
+		COMP #
+		0
+		JMPNZ #
+		[factorial_input_loop1]
+	factorial_input_loop2:
+		IN A
+		COMP #
+		0
+		JMPZ #
+		[factorial_input_loop2]
+	PUSH A
+	JMP #
+	[fac]
+	factorial_cont:
+		PUSH A
+		PUSH w
+		[factorial_print_cont]
+		INC SP
+		INC SP
+		MOV A, (SP)
+		DEC SP
+		DEC SP
+		PUSH A
+		JMP #
+		[print_byte]
+		factorial_print_cont:
+			HLT
+
+
+
+fac:
+	MOV A, (SP)
+	COMP #
+	2
+	JMPNS #
+	[fac_rec]
+	INC SP
+	POP PC
+	fac_rec:
+		PUSH w
+		[fac_rec_cont]
+		INC SP
+		INC SP
+		MOV A, (SP)
+		DEC SP
+		DEC SP
+		SUB #
+		1
+		PUSH A
+		JMP #
+		[fac]
+		fac_rec_cont:
+		PUSH A
+		JMP #
+		[mul]
+
+
+
+
+fibonacci:
+	MOV A, #
+	1
+	MOV a, A
+	0x8000
+	MOV a, A
+	0x8001
+	MOV A, #
+	0
+	fib_loop:
+		ADD a
+		0x8000
+		MOV a, A
+		0x8000
+
+		MOV IOA, #
+		1
+		OUT #
+		0b00000001
+
+		PUSH w
+		[fib_print_cont_1]
+		PUSH a
+		0x8000
+		JMP #
+		[print_byte]
+		fib_print_cont_1:
+
+		MOV A, a
+		0x8000
+		ADD a
+		0x8001
+		MOV a, A
+		0x8001
+
+		MOV IOA, #
+		1
+		OUT #
+		0b00000001
+
+		PUSH w
+		[fib_print_cont_2]
+		PUSH a
+		0x8001
+		JMP #
+		[print_byte]
+		fib_print_cont_2:
+
+		MOV A, a
+		0x8001
+		JMP #
+		[fib_loop]
+
+
+
+
+tic_tac_toe:
+	MOV A, #
+	' '
+	MOV a, A
+	0x8000
+	MOV a, A
+	0x8001
+	MOV a, A
+	0x8002
+	MOV a, A
+	0x8003
+	MOV a, A
+	0x8004
+	MOV a, A
+	0x8005
+	MOV a, A
+	0x8006
+	MOV a, A
+	0x8007
+	MOV a, A
+	0x8008
+
+	MOV A, #
+	'X'
+	MOV a, A
+	0x8009
+
+	ttt_start:
+		MOV IOA, #
+		3
+		OUT #
+		0b10000000
+		IN A
+
+		ADD A
+		JMPNC #
+		[ttt_two]
+		MOV A, a
+		0x8000
+		SUB #
+		' '
+		JMPNZ #
+		[ttt_two]
+		MOV A, a
+		0x8009
+		MOV a, A
+		0x8000
+		JMP #
+		[ttt_change_player]
+	ttt_two:
+		JMPNS #
+		[ttt_three]
+		MOV A, a
+		0x8001
+		SUB #
+		' '
+		JMPNZ #
+		[ttt_three]
+		MOV A, a
+		0x8009
+		MOV a, A
+		0x8001
+		JMP #
+		[ttt_change_player]
+	ttt_three:
+		ADD A
+		JMPNS #
+		[ttt_four]
+		MOV A, a
+		0x8002
+		SUB #
+		' '
+		JMPNZ #
+		[ttt_four]
+		MOV A, a
+		0x8009
+		MOV a, A
+		0x8002
+		JMP #
+		[ttt_change_player]
+
+	ttt_four:
+		MOV IOA, #
+		3
+		OUT #
+		0b01000000
+		IN A
+
+		ADD A
+		JMPNC #
+		[ttt_five]
+		MOV A, a
+		0x8003
+		SUB #
+		' '
+		JMPNZ #
+		[ttt_five]
+		MOV A, a
+		0x8009
+		MOV a, A
+		0x8003
+		JMP #
+		[ttt_change_player]
+	ttt_five:
+		JMPNS #
+		[ttt_six]
+		MOV A, a
+		0x8004
+		SUB #
+		' '
+		JMPNZ #
+		[ttt_six]
+		MOV A, a
+		0x8009
+		MOV a, A
+		0x8004
+		JMP #
+		[ttt_change_player]
+	ttt_six:
+		ADD A
+		JMPNS #
+		[ttt_seven]
+		MOV A, a
+		0x8005
+		SUB #
+		' '
+		JMPNZ #
+		[ttt_seven]
+		MOV A, a
+		0x8009
+		MOV a, A
+		0x8005
+		JMP #
+		[ttt_change_player]
+
+	ttt_seven:
+		MOV IOA, #
+		3
+		OUT #
+		0b00100000
+		IN A
+
+		ADD A
+		JMPNC #
+		[ttt_eight]
+		MOV A, a
+		0x8006
+		SUB #
+		' '
+		JMPNZ #
+		[ttt_eight]
+		MOV A, a
+		0x8009
+		MOV a, A
+		0x8006
+		JMP #
+		[ttt_change_player]
+	ttt_eight:
+		JMPNS #
+		[ttt_nine]
+		MOV A, a
+		0x8007
+		SUB #
+		' '
+		JMPNZ #
+		[ttt_nine]
+		MOV A, a
+		0x8009
+		MOV a, A
+		0x8007
+		JMP #
+		[ttt_change_player]
+	ttt_nine:
+		ADD A
+		JMPNS #
+		[ttt_start]
+		MOV A, a
+		0x8008
+		SUB #
+		' '
+		JMPNZ #
+		[ttt_start]
+		MOV A, a
+		0x8009
+		MOV a, A
+		0x8008
+		JMP #
+		[ttt_change_player]
+
+	ttt_change_player:
+		MOV A, a
+		0x8009
+		SUB #
+		'X'
+		JMPZ #
+		[ttt_swich_to_O]
+		MOV A, #
+		'X'
+		MOV a, A
+		0x8009
+		JMP #
+		[ttt_draw]
+		ttt_swich_to_O:
+			MOV A, #
+			'0'
+			MOV a, A
+			0x8009
+
+	ttt_draw:
+		MOV IOA, #
+		1
+		OUT #
+		0b00000001
+		MOV IOA, #
+		2
+		OUT a
+		0x8000
+		OUT a
+		0x8001
+		OUT a
+		0x8002
+
+		MOV A, #
+		17
+		ttt_loop0:
+			OUT #
+			' '
+			SUB #
+			1
+			JMPNZ #
+			[ttt_loop0]
+
+		OUT a
+		0x8006
+		OUT a
+		0x8007
+		OUT a
+		0x8008
+
+		MOV A, #
+		17
+		ttt_loop1:
+			OUT #
+			' '
+			SUB #
+			1
+			JMPNZ #
+			[ttt_loop1]
+
+		OUT a
+		0x8003
+		OUT a
+		0x8004
+		OUT a
+		0x8005
+
+		JMP #
+		[ttt_start]
+
+
+
+
+multipress:
+	MOV IOA, #
+	3
+	OUT #
+	0b10000000
+	IN A
+	MOV IOA, #
+	2
+
+	ADD A
+	JMPNC #
+	[not_one]
+	OUT #
+	'1'
+	JMP #
+	[two]
+	not_one:
+		OUT #
+		' '
+	two:
+		JMPNS #
+		[not_two]
+		OUT #
+		'2'
+		JMP #
+		[three]
+		not_two:
+			OUT #
+			' '
+	three:
+		ADD A
+		JMPNS #
+		[not_three]
+		OUT #
+		'3'
+		JMP #
+		[A]
+		not_three:
+			OUT #
+			' '
+	A:
+		ADD A
+		JMPNS #
+		[not_A]
+		OUT #
+		'A'
+		JMP #
+		[end_line1]
+		not_A:
+			OUT #
+			' '
+
+	end_line1:
+	PUSH w
+	[seven]
+	JMP #
+	[end_line]
+
+	seven:
+		MOV IOA, #
+		3
+		OUT #
+		0b00100000
+		IN A
+		MOV IOA, #
+		2
+
+		ADD A
+		JMPNC #
+		[not_seven]
+		OUT #
+		'7'
+		JMP #
+		[eight]
+		not_seven:
+			OUT #
+			' '
+	eight:
+		JMPNS #
+		[not_eight]
+		OUT #
+		'8'
+		JMP #
+		[nine]
+		not_eight:
+			OUT #
+			' '
+	nine:
+		ADD A
+		JMPNS #
+		[not_nine]
+		OUT #
+		'9'
+		JMP #
+		[C]
+		not_nine:
+			OUT #
+			' '
+	C:
+		ADD A
+		JMPNS #
+		[not_C]
+		OUT #
+		'C'
+		JMP #
+		[end_line2]
+		not_C:
+			OUT #
+			' '
+
+	end_line2:
+	PUSH w
+	[four]
+	JMP #
+	[end_line]
+
+
+	four:
+		MOV IOA, #
+		3
+		OUT #
+		0b01000000
+		IN A
+		MOV IOA, #
+		2
+
+		ADD A
+		JMPNC #
+		[not_four]
+		OUT #
+		'4'
+		JMP #
+		[five]
+		not_four:
+			OUT #
+			' '
+	five:
+		JMPNS #
+		[not_five]
+		OUT #
+		'5'
+		JMP #
+		[six]
+		not_five:
+			OUT #
+			' '
+	six:
+		ADD A
+		JMPNS #
+		[not_six]
+		OUT #
+		'6'
+		JMP #
+		[B]
+		not_six:
+			OUT #
+			' '
+	B:
+		ADD A
+		JMPNS #
+		[not_B]
+		OUT #
+		'B'
+		JMP #
+		[end_line3]
+		not_B:
+			OUT #
+			' '
+
+	end_line3:
+	PUSH w
+	[star]
+	JMP #
+	[end_line]
+
+	star:
+		MOV IOA, #
+		3
+		OUT #
+		0b00010000
+		IN A
+		MOV IOA, #
+		2
+
+		ADD A
+		JMPNC #
+		[not_star]
+		OUT #
+		'*'
+		JMP #
+		[zero]
+		not_star:
+			OUT #
+			' '
+	zero:
+		JMPNS #
+		[not_zero]
+		OUT #
+		'0'
+		JMP #
+		[hashtag]
+		not_zero:
+			OUT #
+			' '
+	hashtag:
+		ADD A
+		JMPNS #
+		[not_hashtag]
+		OUT #
+		'#'
+		JMP #
+		[D]
+		not_hashtag:
+			OUT #
+			' '
+	D:
+		ADD A
+		JMPNS #
+		[not_D]
+		OUT #
+		'D'
+		JMP #
+		[end_line4]
+		not_D:
+			OUT #
+			' '
+
+	end_line4:
+	PUSH w
+	[multipress]
+	JMP #
+	[end_line]
+
+
+	end_line:
+		MOV A, #
+		16
+		end_line_loop:
+			OUT #
+			' '
+			SUB #
+			1
+			JMPNZ #
+			[end_line_loop]
+		POP PC
+
+
+
+
+
+mul:
+	PUSH #
+	0
+	mul_start:
+		INC SP
+		MOV A, (SP)
+		SUB #
+		1
+		MOV (SP), A
+		DEC SP
+		JMPS #
+		[mul_end]
+		MOV A, (SP)
+		INC SP
+		INC SP
+		ADD (SP)
+		DEC SP
+		DEC SP
+		MOV (SP), A
+		JMP #
+		[mul_start]
+	mul_end:
+		POP A
+		INC SP
+		INC SP
+		POP PC
+
+
+
+print_byte:
+MOV IOA, #
+2
+
+counter:
+PUSH #
+0
+
+	INC SP
+	MOV A, (SP)
+	DEC SP
+	COMP #
+	200
+	JMPNC #
+	[cmp_to_100]
+	OUT #
+	'2'
+	SUB #
+	200
+	JMP #
+	[tens]
+cmp_to_100:
+	COMP #
+	100
+	JMPNC #
+	[zero_hundreds]
+	OUT #
+	'1'
+	SUB #
+	100
+	JMP #
+	[tens]
+zero_hundreds:
+	OUT #
+	'0'
+
+tens:
+	loop_tens:
+		SUB #
+		10
+		JMPS #
+		[continue_tens]
+		INC SP
+		MOV (SP), A
+		DEC SP
+		increase_counter:
+		MOV A, (SP)
+		ADD #
+		1
+		MOV (SP), A
+		INC SP
+		MOV A, (SP)
+		DEC SP
+		JMP #
+		[loop_tens]
+
+	continue_tens:
+	ADD #
+	10
+	INC SP
+	MOV (SP), A
+	DEC SP
+	MOV A, (SP)
+	convert_to_ascii:
+	ADD #
+	0b00110000
+	OUT A
+
+ones:
+	INC SP
+	MOV A, (SP)
+	DEC SP
+	convert_to_ascii:
+	ADD #
+	0b00110000
+	OUT A
+
+	INC SP
+	INC SP
+	POP PC

@@ -1,0 +1,14 @@
+__pycache__
+*/__pycache__
+instruction_tex.py
+instructions_micro_steps_tex.txt
+Intruction_txt_to_intr_dict.py
+memory_tex.py
+show_all_addresses.py
+ROM_tex.py
+
+Memory/counting.py
+Memory/fibonacci_assembled.txt
+Memory/multiply_input_numbers
+Memory/print_key_presses_notes.txt
+Memory/ticTacToe(not working).txt

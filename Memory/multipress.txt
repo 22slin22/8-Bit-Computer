@@ -1,0 +1,259 @@
+MOV SP, #
+0xffff
+
+MOV IOA, #
+1
+OUT #
+0b00111000
+OUT #
+0b00001100
+OUT #
+0b00000110
+OUT #
+0b00000001
+
+start:
+	MOV IOA, #
+	3
+	OUT #
+	0b10000000
+	IN A
+	MOV IOA, #
+	2
+
+	ADD A
+	JMPNC #
+	[not_one]
+	OUT #
+	'1'
+	JMP #
+	[two]
+	not_one:
+		OUT #
+		' '
+two:
+	JMPNS #
+	[not_two]
+	OUT #
+	'2'
+	JMP #
+	[three]
+	not_two:
+		OUT #
+		' '
+three:
+	ADD A
+	JMPNS #
+	[not_three]
+	OUT #
+	'3'
+	JMP #
+	[A]
+	not_three:
+		OUT #
+		' '
+A:
+	ADD A
+	JMPNS #
+	[not_A]
+	OUT #
+	'A'
+	JMP #
+	[end_line1]
+	not_A:
+		OUT #
+		' '
+
+end_line1:
+PUSH w
+[seven]
+JMP #
+[end_line]
+
+seven:
+	MOV IOA, #
+	3
+	OUT #
+	0b00100000
+	IN A
+	MOV IOA, #
+	2
+
+	ADD A
+	JMPNC #
+	[not_seven]
+	OUT #
+	'7'
+	JMP #
+	[eight]
+	not_seven:
+		OUT #
+		' '
+eight:
+	JMPNS #
+	[not_eight]
+	OUT #
+	'8'
+	JMP #
+	[nine]
+	not_eight:
+		OUT #
+		' '
+nine:
+	ADD A
+	JMPNS #
+	[not_nine]
+	OUT #
+	'9'
+	JMP #
+	[C]
+	not_nine:
+		OUT #
+		' '
+C:
+	ADD A
+	JMPNS #
+	[not_C]
+	OUT #
+	'C'
+	JMP #
+	[end_line2]
+	not_C:
+		OUT #
+		' '
+
+end_line2:
+PUSH w
+[four]
+JMP #
+[end_line]
+
+
+four:
+	MOV IOA, #
+	3
+	OUT #
+	0b01000000
+	IN A
+	MOV IOA, #
+	2
+
+	ADD A
+	JMPNC #
+	[not_four]
+	OUT #
+	'4'
+	JMP #
+	[five]
+	not_four:
+		OUT #
+		' '
+five:
+	JMPNS #
+	[not_five]
+	OUT #
+	'5'
+	JMP #
+	[six]
+	not_five:
+		OUT #
+		' '
+six:
+	ADD A
+	JMPNS #
+	[not_six]
+	OUT #
+	'6'
+	JMP #
+	[B]
+	not_six:
+		OUT #
+		' '
+B:
+	ADD A
+	JMPNS #
+	[not_B]
+	OUT #
+	'B'
+	JMP #
+	[end_line3]
+	not_B:
+		OUT #
+		' '
+
+end_line3:
+PUSH w
+[star]
+JMP #
+[end_line]
+
+star:
+	MOV IOA, #
+	3
+	OUT #
+	0b00010000
+	IN A
+	MOV IOA, #
+	2
+
+	ADD A
+	JMPNC #
+	[not_star]
+	OUT #
+	'*'
+	JMP #
+	[zero]
+	not_star:
+		OUT #
+		' '
+zero:
+	JMPNS #
+	[not_zero]
+	OUT #
+	'0'
+	JMP #
+	[hashtag]
+	not_zero:
+		OUT #
+		' '
+hashtag:
+	ADD A
+	JMPNS #
+	[not_hashtag]
+	OUT #
+	'#'
+	JMP #
+	[D]
+	not_hashtag:
+		OUT #
+		' '
+D:
+	ADD A
+	JMPNS #
+	[not_D]
+	OUT #
+	'D'
+	JMP #
+	[end_line4]
+	not_D:
+		OUT #
+		' '
+
+end_line4:
+PUSH w
+[start]
+JMP #
+[end_line]
+
+
+end_line:
+	MOV A, #
+	16
+	end_line_loop:
+		OUT #
+		' '
+		SUB #
+		1
+		JMPNZ #
+		[end_line_loop]
+	POP PC

@@ -1,0 +1,14 @@
+MOV A, #
+0x52
+MOV SPL, A
+MOV SPH, A
+MOV SP, #
+0x95f1
+PUSH #
+0x15
+POP A
+PUSH A
+MOV A, #
+0
+POP A
+HLT

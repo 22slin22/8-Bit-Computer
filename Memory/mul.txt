@@ -1,0 +1,51 @@
+MOV SP, #
+0xffff
+
+MOV IOA, #
+1
+OUT #
+0b00111000
+OUT #
+0b00001111
+OUT #
+0b00000110
+OUT #
+0b00000001
+
+PUSH w
+[continue]
+PUSH #
+8
+PUSH #
+11
+JMP #
+[mul]
+continue:
+HLT
+
+mul:
+	PUSH #
+	0
+	mul_start:
+		INC SP
+		MOV A, (SP)
+		SUB #
+		1
+		MOV (SP), A
+		DEC SP
+		JMPS #
+		[mul_end]
+		MOV A, (SP)
+		INC SP
+		INC SP
+		ADD (SP)
+		DEC SP
+		DEC SP
+		MOV (SP), A
+		JMP #
+		[mul_start]
+	mul_end:
+		POP A
+		INC SP
+		INC SP
+		POP PC

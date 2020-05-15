@@ -1,0 +1,203 @@
+MOV IOA, #
+1
+OUT #
+0b00111000
+OUT #
+0b00001111
+OUT #
+0b00000110
+OUT #
+0b00000001
+
+MOV A, #
+1
+MOV a, A
+0x8010
+MOV a, A
+0x8011
+MOV A, #
+0
+
+loop:
+	ADD a
+	0x8010
+	
+	MOV a, A
+	0x8010
+
+	set_counter_to_zero:
+	MOV A, #
+	0
+	MOV a, A
+	0x8001
+
+	MOV A, a
+	0x8010
+
+	MOV IOA, #
+	1
+	OUT #
+	0b00000001
+	MOV IOA, #
+	2
+
+	print_1:
+		COMP #
+		200
+		JMPNC #
+		[cmp_to_100_1]
+		OUT #
+		'2'
+		SUB #
+		200
+		JMP #
+		[tens_1]
+	cmp_to_100_1:
+		COMP #
+		100
+		JMPNC #
+		[zero_hundreds_1]
+		OUT #
+		'1'
+		SUB #
+		100
+		JMP #
+		[tens_1]
+	zero_hundreds_1:
+		OUT #
+		'0'
+
+	tens_1:
+		loop_tens_1:
+			SUB #
+			10
+			JMPS #
+			[continue_tens_1]
+			MOV a, A
+			0x8000
+			increase_counter:
+			MOV A, a
+			0x8001
+			ADD #
+			1
+			MOV a, A
+			0x8001
+			MOV A, a
+			0x8000
+			JMP #
+			[loop_tens_1]
+
+		continue_tens_1:
+		ADD #
+		10
+		MOV a, A
+		0x8000
+		MOV A, a
+		0x8001
+		convert_to_ascii:
+		ADD #
+		0b00110000
+		OUT A
+
+	ones_1:
+		MOV A, a
+		0x8000
+		convert_to_ascii:
+		ADD #
+		0b00110000
+		OUT A
+
+	MOV A, a
+	0x8010
+
+	ADD a
+	0x8011
+	MOV a, A
+	0x8011
+
+	set_counter_to_zero:
+	MOV A, #
+	0
+	MOV a, A
+	0x8001
+
+	MOV A, a
+	0x8011
+
+	MOV IOA, #
+	1
+	OUT #
+	0b00000001
+	MOV IOA, #
+	2
+
+	print_2:
+		COMP #
+		200
+		JMPNC #
+		[cmp_to_100_2]
+		OUT #
+		'2'
+		SUB #
+		200
+		JMP #
+		[tens_2]
+	cmp_to_100_2:
+		COMP #
+		100
+		JMPNC #
+		[zero_hundreds_2]
+		OUT #
+		'1'
+		SUB #
+		100
+		JMP #
+		[tens_2]
+	zero_hundreds_2:
+		OUT #
+		'0'
+
+	tens_2:
+		loop_tens_2:
+			SUB #
+			10
+			JMPS #
+			[continue_tens_2]
+			MOV a, A
+			0x8000
+			increase_counter:
+			MOV A, a
+			0x8001
+			ADD #
+			1
+			MOV a, A
+			0x8001
+			MOV A, a
+			0x8000
+			JMP #
+			[loop_tens_2]
+
+		continue_tens_2:
+		ADD #
+		10
+		MOV a, A
+		0x8000
+		MOV A, a
+		0x8001
+		convert_to_ascii:
+		ADD #
+		0b00110000
+		OUT A
+
+	ones_2:
+		MOV A, a
+		0x8000
+		convert_to_ascii:
+		ADD #
+		0b00110000
+		OUT A
+
+	MOV A, a
+	0x8011
+	JMP #
+	[loop]

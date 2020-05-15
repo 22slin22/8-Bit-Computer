@@ -1,0 +1,268 @@
+MOV IOA, #
+1
+OUT #
+0b00111000
+OUT #
+0b00001111
+OUT #
+0b00000110
+OUT #
+0b00000001
+
+MOV A, #
+' '
+MOV a, A
+0x8000
+MOV a, A
+0x8001
+MOV a, A
+0x8002
+MOV a, A
+0x8003
+MOV a, A
+0x8004
+MOV a, A
+0x8005
+MOV a, A
+0x8006
+MOV a, A
+0x8007
+MOV a, A
+0x8008
+
+MOV A, #
+'X'
+MOV a, A
+0x8009
+
+start:
+	MOV IOA, #
+	3
+	OUT #
+	0b10000000
+	IN A
+
+	ADD A
+	JMPNC #
+	[two]
+	MOV A, a
+	0x8000
+	SUB #
+	' '
+	JMPNZ #
+	[two]
+	MOV A, a
+	0x8009
+	MOV a, A
+	0x8000
+	JMP #
+	[change_player]
+two:
+	JMPNS #
+	[three]
+	MOV A, a
+	0x8001
+	SUB #
+	' '
+	JMPNZ #
+	[three]
+	MOV A, a
+	0x8009
+	MOV a, A
+	0x8001
+	JMP #
+	[change_player]
+three:
+	ADD A
+	JMPNS #
+	[four]
+	MOV A, a
+	0x8002
+	SUB #
+	' '
+	JMPNZ #
+	[four]
+	MOV A, a
+	0x8009
+	MOV a, A
+	0x8002
+	JMP #
+	[change_player]
+
+four:
+	MOV IOA, #
+	3
+	OUT #
+	0b01000000
+	IN A
+
+	ADD A
+	JMPNC #
+	[five]
+	MOV A, a
+	0x8003
+	SUB #
+	' '
+	JMPNZ #
+	[five]
+	MOV A, a
+	0x8009
+	MOV a, A
+	0x8003
+	JMP #
+	[change_player]
+five:
+	JMPNS #
+	[six]
+	MOV A, a
+	0x8004
+	SUB #
+	' '
+	JMPNZ #
+	[six]
+	MOV A, a
+	0x8009
+	MOV a, A
+	0x8004
+	JMP #
+	[change_player]
+six:
+	ADD A
+	JMPNS #
+	[seven]
+	MOV A, a
+	0x8005
+	SUB #
+	' '
+	JMPNZ #
+	[seven]
+	MOV A, a
+	0x8009
+	MOV a, A
+	0x8005
+	JMP #
+	[change_player]
+
+seven:
+	MOV IOA, #
+	3
+	OUT #
+	0b00100000
+	IN A
+
+	ADD A
+	JMPNC #
+	[eight]
+	MOV A, a
+	0x8006
+	SUB #
+	' '
+	JMPNZ #
+	[eight]
+	MOV A, a
+	0x8009
+	MOV a, A
+	0x8006
+	JMP #
+	[change_player]
+eight:
+	JMPNS #
+	[nine]
+	MOV A, a
+	0x8007
+	SUB #
+	' '
+	JMPNZ #
+	[nine]
+	MOV A, a
+	0x8009
+	MOV a, A
+	0x8007
+	JMP #
+	[change_player]
+nine:
+	ADD A
+	JMPNS #
+	[start]
+	MOV A, a
+	0x8008
+	SUB #
+	' '
+	JMPNZ #
+	[start]
+	MOV A, a
+	0x8009
+	MOV a, A
+	0x8008
+	JMP #
+	[change_player]
+
+change_player:
+	MOV A, a
+	0x8009
+	SUB #
+	'X'
+	JMPZ #
+	[swich_to_O]
+	MOV A, #
+	'X'
+	MOV a, A
+	0x8009
+	JMP #
+	[draw]
+	swich_to_O:
+		MOV A, #
+		'0'
+		MOV a, A
+		0x8009
+
+draw:
+	MOV IOA, #
+	1
+	OUT #
+	0b00000001
+	MOV IOA, #
+	2
+	OUT a
+	0x8000
+	OUT a
+	0x8001
+	OUT a
+	0x8002
+
+	MOV A, #
+	17
+	loop0:
+		OUT #
+		' '
+		SUB #
+		1
+		JMPNZ #
+		[loop0]
+
+	OUT a
+	0x8006
+	OUT a
+	0x8007
+	OUT a
+	0x8008
+
+	MOV A, #
+	17
+	loop1:
+		OUT #
+		' '
+		SUB #
+		1
+		JMPNZ #
+		[loop1]
+
+	OUT a
+	0x8003
+	OUT a
+	0x8004
+	OUT a
+	0x8005
+
+	JMP #
+	[start]

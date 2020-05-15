@@ -1,0 +1,141 @@
+MOV IOA, #
+1
+OUT #
+0b00111000
+OUT #
+0b00001111
+OUT #
+0b00000110
+OUT #
+0b00000001
+
+start:
+	MOV IOA, #
+	3
+	OUT #
+	0b10000000
+	IN A
+	MOV IOA, #
+	2
+
+	ADD A
+	JMPNC #
+	[two]
+	OUT #
+	'1'
+two:
+	JMPNS #
+	[three]
+	OUT #
+	'2'
+three:
+	ADD A
+	JMPNS #
+	[A]
+	OUT #
+	'3'
+A:
+	ADD A
+	JMPNS #
+	[four]
+	OUT #
+	'A'
+
+four:
+	MOV IOA, #
+	3
+	OUT #
+	0b01000000
+	IN A
+	MOV IOA, #
+	2
+
+	ADD A
+	JMPNC #
+	[five]
+	OUT #
+	'4'
+five:
+	JMPNS #
+	[six]
+	OUT #
+	'5'
+six:
+	ADD A
+	JMPNS #
+	[B]
+	OUT #
+	'6'
+B:
+	ADD A
+	JMPNS #
+	[seven]
+	OUT #
+	'B'
+
+seven:
+	MOV IOA, #
+	3
+	OUT #
+	0b00100000
+	IN A
+	MOV IOA, #
+	2
+
+	ADD A
+	JMPNC #
+	[eight]
+	OUT #
+	'7'
+eight:
+	JMPNS #
+	[nine]
+	OUT #
+	'8'
+nine:
+	ADD A
+	JMPNS #
+	[C]
+	OUT #
+	'9'
+C:
+	ADD A
+	JMPNS #
+	[star]
+	OUT #
+	'C'
+
+star:
+	MOV IOA, #
+	3
+	OUT #
+	0b00010000
+	IN A
+	MOV IOA, #
+	2
+
+	ADD A
+	JMPNC #
+	[zero]
+	OUT #
+	'*'
+zero:
+	JMPNS #
+	[hashtag]
+	OUT #
+	'0'
+hashtag:
+	ADD A
+	JMPNS #
+	[D]
+	OUT #
+	'#'
+D:
+	ADD A
+	JMPNS #
+	[start]
+	OUT #
+	'D'
+
+	JMP #
+	[start]
